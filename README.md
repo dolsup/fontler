@@ -8,12 +8,14 @@
 ## install
 `npm i fontler --save`
 
-## usage
-```js
+## example code
+```
    var fontler = require('fontler');
-   fontler('originalFont.ttf', 'subset.woff', '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff', function(err) {
+   fontler('originalFont.ttf', 'subset.woff',
+            '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff',
+            function(err) {
 	if(err) console.log(err);
-	else console.log("OK");
+	else console.log("Success");
    });
 ```
 
