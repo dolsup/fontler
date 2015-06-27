@@ -1,6 +1,7 @@
 # fontler
 ## 개요
 fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화할 수 있습니다.
+Google의 sfntly(Apache v2.0)를 사용합니다.
 
 ## 기능
 - 글꼴에서 지정한 문자열만 남기기
@@ -10,7 +11,7 @@ fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
 `npm i fontler --save`
 
 ## 사용법
-```
+```js
    var fontler = require('fontler');
    fontler('originalFont.ttf', 'subset.woff',
             '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff',
