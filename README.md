@@ -21,7 +21,7 @@ fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
 ```
 
 ## 예제 데모 페이지
-[expample demo page](http://cdn.rawgit.com/dolsup/fontler/master/demo.html)
+[expample demo page](http://cdn.rawgit.com/dolsup/fontler/master/demopage.html)
 
 ## 라이센스
 `THE BEER-WARE LICENSE (Revision 42)`
