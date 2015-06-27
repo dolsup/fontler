@@ -1,4 +1,4 @@
-I# fontler
+# fontler
 ## feature
 - create subset of font with specified string
 - woff / eot output
@@ -20,6 +20,6 @@ I# fontler
 ```
 
 ## usage
-[expample usage page](https://raw.githubusercontent.com/dolsup/fontler/master/demo.html)
+[expample usage page](http://cdn.rawgit.com/dolsup/fontler/master/demo.html)
 ## licence
 `THE BEER-WARE LICENSE (Revision 42)`
