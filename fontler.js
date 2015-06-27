@@ -1,4 +1,3 @@
-require('colors');
 var fs = require('fs');
     
 var spawn = require('child_process').spawn;    
@@ -17,7 +16,7 @@ function subset(inputFile, outputFile, subString, outputFormat, callback) {
 }
 
 process.on('uncaughtException', function (err) {
-    console.log("FONTLER : ".red + err);
+    console.log("\u001b[31mFONTLER : \u001b[39m" + err);
 });
 
 function checkFile(inputFile, callback) {
@@ -32,7 +31,7 @@ function checkFile(inputFile, callback) {
             }
         }
     } catch(err) {
-        invalid = "FONTLER : ".red + err;
+        invalid = "\u001b[31mFONTLER : \u001b[39m" + err;
     } finally {
         callback(invalid);
     }
@@ -46,7 +45,7 @@ function snftly(fontfile, outfile, options, callback) {
         //console.log(data.toString());
     });
     cmd.stderr.on('data', function(data){
-        console.log("FONTLER : ".red + data.toString());
+        console.log("\u001b[31mFONTLER : \u001b[39m" + data.toString());
     });
     cmd.on('close', function(code){
         callback(code);
