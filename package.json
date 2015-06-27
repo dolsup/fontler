@@ -1,0 +1,32 @@
+{
+  "name": "fontler",
+  "version": "1.0.0",
+  "description": "fontler is font subsetter using sfntly",
+  "main": "fontler.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dolsup/fontler.git"
+  },
+  "keywords": [
+    "font",
+    "subset",
+    "webfont",
+    "woff",
+    "eot",
+    "ttf",
+    "sfntly",
+    "optimization"
+  ],
+  "author": "dolsup",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/dolsup/fontler/issues"
+  },
+  "homepage": "https://github.com/dolsup/fontler#readme"
+}

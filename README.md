@@ -18,4 +18,4 @@
 ```
 
 ## licence
-THE BEER-WARE LICENSE (Revision 42)
+`THE BEER-WARE LICENSE (Revision 42)`
