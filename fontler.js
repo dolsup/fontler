@@ -3,21 +3,32 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;    
 
 function subset(inputFile, outputFile, subString, outputFormat, callback) {
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
+    }
     checkFile(inputFile, function(err) {
         if(err) {
             callback(err);
         } else {
-            var ops = ['-s', subString, (outputFormat==='eot')?'-e':((outputFormat==='woff')?'-w':'')];
-            snftly(inputFile, outputFile, ops, function(code) {
-                callback(code);
-            });
+            if(args.length == 5) {
+                var ops = ['-s', subString, parseOptions(outputFormat)];
+                snftly(inputFile, outputFile, ops, function(code) {
+                    callback(code);
+                });
+            }
+            
         }
     });
 }
 
-process.on('uncaughtException', function (err) {
-    console.log("\u001b[31mFONTLER : \u001b[39m" + err);
-});
+// old code (outputFormat==='eot')?'-e':((outputFormat==='woff')?'-w':'')
+function parseOptions(ops) {
+    var options = [];
+    if(ops.indexOf('e') !== -1) options += "-e";
+    if(ops.indexOf('w') !== -1) options += "-w";
+    return options.join(' ');
+};
 
 function checkFile(inputFile, callback) {
     var invalid = true;
