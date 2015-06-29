@@ -1,8 +1,7 @@
 var fs = require('fs');
-    
 var spawn = require('child_process').spawn;    
 
-function subset(inputFile, outputFile, subString, outputFormat, callback) {
+function subset(inputFile, p2, p3, p4, callback) {
     var args = [];
     for (var i = 0; i < arguments.length; i++) {
         args.push(arguments[i]);
@@ -12,21 +11,70 @@ function subset(inputFile, outputFile, subString, outputFormat, callback) {
             callback(err);
         } else {
             if(args.length == 5) {
-                var ops = ['-s', subString, parseOptions(outputFormat)];
-                snftly(inputFile, outputFile, ops, function(code) {
-                    callback(code);
+                // basic parameter option
+                // inputFile, outputFile, subString, outputFormat, callback);
+                if(checkOptions(p4)) {
+                    var ops = ['-s', p3];
+                    snftly(inputFile, removeExt(p2)+'.eot', ops.concat(['-e']), function(code) {
+                        snftly(inputFile, removeExt(p2)+'.woff', ops.concat(['-w']), function(code2) {
+                            callback([code, code2]);
+                        });
+                    });
+                } else {
+                    var ops = ['-s', p3, parseOptions(p4)];
+                    snftly(inputFile, p2, ops, function(code) {
+                        callback(code);
+                    });
+                }
+            }
+            if(args.length == 4) {
+                // simple parameter option
+                // inputFile, subString, outputFormat, callback
+                if(checkOptions(p3)) {
+                    var ops = ['-s', p2];
+                    snftly(inputFile, removeExt(inputFile)+'.eot', ops.concat(['-e']), function(code) {
+                        snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
+                            callback([code, code2]);
+                        });
+                    });
+                } else {
+                    var ops = ['-s', p2, parseOptions(p3)];
+                    snftly(inputFile, p2, ops, function(code) {
+                        callback(code);
+                    });
+                }
+            }
+            if(args.length == 3) {
+                // more simple parameter option
+                // inputFile, subString, callback
+                var ops = ['-s', p2];
+                snftly(inputFile, removeExt(inputFile)+'.eot', ops.concat(['-e']), function(code) {
+                    snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
+                        callback([code, code2]);
+                    });
                 });
             }
-            
         }
     });
+}
+
+function removeExt(filename) {
+    if(filename.split('.').length > 1) {
+        return filename.split('.').slice(0, -1);
+    } else return filename; 
+}
+
+// check whether option parameter includes 'eot' and 'woff'
+function checkOptions(ops) {
+    return (ops.indexOf('e') !== -1) && (ops.indexOf('w') !== -1)
 }
 
 // old code (outputFormat==='eot')?'-e':((outputFormat==='woff')?'-w':'')
 function parseOptions(ops) {
     var options = [];
-    if(ops.indexOf('e') !== -1) options += "-e";
-    if(ops.indexOf('w') !== -1) options += "-w";
+    if(ops.indexOf('e') !== -1) options.push("-e");
+    else if(ops.indexOf('w') !== -1) options.push("-w");
+    //if(ops.indexOf('h') !== -1) options.push("-h");
     return options.join(' ');
 };
 
