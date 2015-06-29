@@ -1,5 +1,6 @@
 # Fontler (en / ko)
 ## Summary / 개요
+[![NPM](https://nodei.co/npm/fontler.png?compact=true)](https://nodei.co/npm/fontler/) <br>
 Fontler can minimize the volume of font by removing unnecessary glyphs, using Google's sfntly(Apache v2.0) / <br>
 Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화할 수 있습니다. Google의 sfntly(Apache v2.0)를 사용합니다.
 
