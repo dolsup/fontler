@@ -1,3 +1,18 @@
+/*
+ * -----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * dolsup(Jiwon Choi)<1890mah@gmail.com> wrote this file. As long as you retain
+ * this notice you can do whatever you want with this stuff. If we meet some day,
+ * and you think this stuff is worth it, you can buy me a beer in return.
+ * -----------------------------------------------------------------------------
+ */
+/*
+    fontler.js
+    * author : dolsup(Jiwon Choi)<1890mah@gmail.com>, 2015
+    * page : github.com/dolsup/actac
+*/
+
+
 var fs = require('fs');
 var spawn = require('child_process').spawn;    
 

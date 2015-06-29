@@ -1,6 +1,6 @@
 {
   "name": "fontler",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "fontler is font subsetter using sfntly",
   "main": "fontler.js",
   "directories": {
@@ -21,7 +21,8 @@
     "eot",
     "ttf",
     "sfntly",
-    "optimization"
+    "optimization",
+    "Hangul"
   ],
   "author": "dolsup",
   "license": "Beerware",
