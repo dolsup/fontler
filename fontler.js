@@ -29,20 +29,13 @@ function subset(inputFile, p2, p3, p4, callback) {
             }
             if(args.length == 4) {
                 // simple parameter option
-                // inputFile, subString, outputFormat, callback
-                if(checkOptions(p3)) {
-                    var ops = ['-s', p2];
-                    snftly(inputFile, removeExt(inputFile)+'.eot', ops.concat(['-e']), function(code) {
-                        snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
-                            callback([code, code2]);
-                        });
+                // inputFile, OutputFile, subString, callback
+                var ops = ['-s', p3];
+                snftly(inputFile, removeExt(p2)+'.eot', ops.concat(['-e']), function(code) {
+                    snftly(inputFile, removeExt(p2)+'.woff', ops.concat(['-w']), function(code2) {
+                        p4([code, code2]);
                     });
-                } else {
-                    var ops = ['-s', p2, parseOptions(p3)];
-                    snftly(inputFile, p2, ops, function(code) {
-                        callback(code);
-                    });
-                }
+                });
             }
             if(args.length == 3) {
                 // more simple parameter option
@@ -50,7 +43,7 @@ function subset(inputFile, p2, p3, p4, callback) {
                 var ops = ['-s', p2];
                 snftly(inputFile, removeExt(inputFile)+'.eot', ops.concat(['-e']), function(code) {
                     snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
-                        callback([code, code2]);
+                        p3([code, code2]);
                     });
                 });
             }
