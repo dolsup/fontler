@@ -29,8 +29,5 @@
   "bugs": {
     "url": "https://github.com/dolsup/fontler/issues"
   },
-  "homepage": "https://github.com/dolsup/fontler#readme",
-  "dependencies": {
-    "js-base64": "^2.1.8"
-  }
+  "homepage": "https://github.com/dolsup/fontler#readme"
 }
