@@ -1,6 +1,6 @@
 {
   "name": "fontler",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "fontler is font subsetter using sfntly",
   "main": "fontler.js",
   "directories": {
@@ -29,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/dolsup/fontler/issues"
   },
-  "homepage": "https://github.com/dolsup/fontler#readme"
+  "homepage": "https://github.com/dolsup/fontler#readme",
+  "dependencies": {
+    "js-base64": "^2.1.8"
+  }
 }

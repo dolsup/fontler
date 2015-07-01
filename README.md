@@ -18,7 +18,7 @@ Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
 - `subString`: *String*, the string to leave / 남길 문자열
 - `option` : *String*, output format including 'e' as eot or 'w' as woff or both
     / 'e' 또는 'w' 또는 둘 다를 포함한 결과 파일 포맷 옵션
-- `callback` : *Function*, error passed from this / 에러를 넘겨주는 콜백
+- `callback` : *Function* pass (error, outputPath) / 에러와 결과 경로 반환하는 콜백
 
 #### Overided! / 과적(?)됐어요!
 ##### 5 parameter
@@ -48,22 +48,22 @@ output file names are the same with input file name
    // 5 parameter
    fontler('originalFont.ttf', 'subset',
             '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff',
-            function(err) {
+            function(err, outputPath) {
             	if(err) console.log(err);
-            	else console.log("Success");
+            	else console.log(outputPath);
    });
    
    // 4 parameter
    fontler('originalFont.ttf', 'twoFormatOutput', '첩첩산 방방곡곡 굽굽이 찾아들어',
-            function(err) {
+            function(err, outputPaths) {
             	if(err) console.log(err);
-            	else console.log("Success");
+            	else console.log(outputPaths); // array
    });
    
    // 3 parameter
-   fontler('originalFont.ttf', '첩첩산 방방곡곡 굽굽이 찾아들어', function(err) {
+   fontler('originalFont.ttf', '첩첩산 방방곡곡 굽굽이 찾아들어', function(err, outputPaths) {
     	if(err) console.log(err);
-    	else console.log("Success");
+    	else console.log(outputPaths); // array
    });
 ```
 
