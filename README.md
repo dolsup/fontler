@@ -20,7 +20,7 @@ Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
     / 'e' 또는 'w' 또는 둘 다를 포함한 결과 파일 포맷 옵션
 - `callback` : *Function* pass (error, outputPath) / 에러와 결과 경로 반환하는 콜백
 
-#### Overided! / 과적(?)됐어요!
+#### Overloaded! / 과적(?)됐어요!
 ##### 5 parameter
 ```js
 fontler(inputFile, outputFile, subString, option, callback);
