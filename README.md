@@ -11,6 +11,10 @@ Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
 ### Installation / 설치
 `npm i fontler --save`
 
+### Change Log / 바뀐 점
+- Callback doesn't pass *outputPath* any more / *outputPath* 옵션이 사라짐
+- add x, h option / x, h 옵션 추가
+
 ### API
 #### Parameter / 인수
 - `inputFile`: *String*, the path and name of original font file / 원본 폰트 경로와 이름
@@ -22,7 +26,7 @@ Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
     - **x** : Enable Microtype Express compression for EOT format / EOT를 위한 압축(?)
     - **h** : strip hints / 힌팅 제거
     - usage : "wexh", "ex", "yeah", "woff and eot", "hardware"
-- `callback` : *Function* pass (error, outputPath) / 에러와 결과 경로 반환하는 콜백
+- `callback` : *Function* pass (error) / 에러 반환하는 콜백
 
 #### Overloaded! / 과적(?)됐어요!
 ##### 5 parameter
@@ -52,20 +56,20 @@ output file names are the same with input file name
    // 5 parameter
    fontler('originalFont.ttf', 'subset',
             '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff,hints',
-            function(err, outputPath) {
+            function(err) {
             	if(err) console.log(err);
             	else console.log(outputPath);
    });
    
    // 4 parameter
    fontler('originalFont.ttf', 'twoFormatOutput', '첩첩산 방방곡곡 굽굽이 찾아들어',
-            function(err, outputPaths) {
+            function(err) {
             	if(err) console.log(err);
             	else console.log(outputPaths); // array
    });
    
    // 3 parameter
-   fontler('originalFont.ttf', '첩첩산 방방곡곡 굽굽이 찾아들어', function(err, outputPaths) {
+   fontler('originalFont.ttf', '첩첩산 방방곡곡 굽굽이 찾아들어', function(err) {
     	if(err) console.log(err);
     	else console.log(outputPaths); // array
    });

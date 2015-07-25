@@ -15,16 +15,6 @@
 
 var fs = require('fs');
 var spawn = require('child_process').spawn;
-var mime = {
-    ttf: "application/x-font-ttf",
-    woff: "application/font-woff",
-    eot: "application/vnd.ms-fontobject"
-};
-var format = {
-    ttf: "truetype",
-    woff: "woff",
-    eot: "embedded-opentype"
-};
 
 function subset(inputFile, p2, p3, p4, callback) {
     var args = [];
@@ -42,21 +32,26 @@ function subset(inputFile, p2, p3, p4, callback) {
                     var ops = ['-s', p3];
                     var parsedOps = parseOptions(p4);
                     snftly(inputFile, removeExt(p2)+'.eot', ops.concat(parsedOps.splice(parsedOps.indexOf('-w'), 1)), function(code) {
+                        if(code) callback(code);
                         snftly(inputFile, removeExt(p2)+'.woff', ops.concat(parsedOps.splice(parsedOps.indexOf('-e'), 1)), function(code2) {
-                            callback(null, [code, code2]);
+                            if(code2) callback(code2);
+                            else callback(null);
                         });
                     });
                 } else if(checkOptions(p4) == 0) {
                     var ops = ['-s', p3];
                     snftly(inputFile, removeExt(p2)+'.eot', ops.concat('-e'), function(code) {
+                        if(code) callback(code);
                         snftly(inputFile, removeExt(p2)+'.woff', ops.concat('-w'), function(code2) {
-                            callback(null, [code, code2]);
+                            if(code2) callback(code2);
+                            else callback(null);
                         });
                     });
                 } else {
                     var ops = ['-s', p3, styOptions(p4)];
                     snftly(inputFile, p2, ops, function(code) {
-                        callback(null, code);
+                        if(code) callback(code);
+                        else callback(null);
                     });
                 }
             }
@@ -65,8 +60,10 @@ function subset(inputFile, p2, p3, p4, callback) {
                 // inputFile, OutputFile, subString, callback
                 var ops = ['-s', p3];
                 snftly(inputFile, removeExt(p2)+'.eot', ops.concat(['-e']), function(code) {
+                    if(code) callback(code);
                     snftly(inputFile, removeExt(p2)+'.woff', ops.concat(['-w']), function(code2) {
-                        p4(null, [code, code2]);
+                        if(code2) callback(code2);
+                        else p4(null);
                     });
                 });
             }
@@ -75,8 +72,10 @@ function subset(inputFile, p2, p3, p4, callback) {
                 // inputFile, subString, callback
                 var ops = ['-s', p2];
                 snftly(inputFile, removeExt(inputFile)+'.eot', ops.concat(['-e']), function(code) {
+                    if(code) callback(code);
                     snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
-                        p3(null, [code, code2]);
+                        if(code2) callback(code2);
+                        else p3(null);
                     });
                 });
             }
@@ -143,10 +142,10 @@ function snftly(fontfile, outfile, options, callback) {
         //console.log(data.toString());
     });
     cmd.stderr.on('data', function(data){
-        console.log("\u001b[31mFONTLER : \u001b[39m" + data.toString());
+        callback("\u001b[31mFONTLER : \u001b[39m" + data.toString());
     });
     cmd.on('close', function(code){
-        callback(code);
+        callback(null);
     });
 }
 
