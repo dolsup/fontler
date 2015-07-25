@@ -38,15 +38,23 @@ function subset(inputFile, p2, p3, p4, callback) {
             if(args.length == 5) {
                 // basic parameter option
                 // inputFile, outputFile, subString, outputFormat, callback);
-                if(checkOptions(p4)) {
+                if(checkOptions(p4) == 2) {
                     var ops = ['-s', p3];
-                    snftly(inputFile, removeExt(p2)+'.eot', ops.concat(['-e']), function(code) {
-                        snftly(inputFile, removeExt(p2)+'.woff', ops.concat(['-w']), function(code2) {
+                    var parsedOps = parseOptions(p4);
+                    snftly(inputFile, removeExt(p2)+'.eot', ops.concat(parsedOps.splice(parsedOps.indexOf('-w'), 1)), function(code) {
+                        snftly(inputFile, removeExt(p2)+'.woff', ops.concat(parsedOps.splice(parsedOps.indexOf('-e'), 1)), function(code2) {
+                            callback(null, [code, code2]);
+                        });
+                    });
+                } else if(checkOptions(p4) == 0) {
+                    var ops = ['-s', p3];
+                    snftly(inputFile, removeExt(p2)+'.eot', ops.concat('-e'), function(code) {
+                        snftly(inputFile, removeExt(p2)+'.woff', ops.concat('-w'), function(code2) {
                             callback(null, [code, code2]);
                         });
                     });
                 } else {
-                    var ops = ['-s', p3, parseOptions(p4)];
+                    var ops = ['-s', p3, styOptions(p4)];
                     snftly(inputFile, p2, ops, function(code) {
                         callback(null, code);
                     });
@@ -87,17 +95,27 @@ function getExt(filename) {
 
 // check whether option parameter includes 'eot' and 'woff'
 function checkOptions(ops) {
-    return (ops.indexOf('e') !== -1) && (ops.indexOf('w') !== -1)
+    // count the number of options (eot, woff);
+    return 0 + (ops.indexOf('e') !== -1) + (ops.indexOf('w') !== -1);
 }
 
 // old code (outputFormat==='eot')?'-e':((outputFormat==='woff')?'-w':'')
 function parseOptions(ops) {
     var options = [];
-    if(ops.indexOf('e') !== -1) options.push("-e");
-    else if(ops.indexOf('w') !== -1) options.push("-w");
-    //if(ops.indexOf('h') !== -1) options.push("-h");
-    return options.join(' ');
+    if(ops.indexOf('h') !== -1) options.push("-h"); // -hints Strip hints
+    if(ops.indexOf('w') !== -1) options.push("-w"); // -woff Output WOFF format
+    if(ops.indexOf('e') !== -1) {
+        options.push("-e"); // -eot	Output EOT format
+        if(ops.indexOf('x') !== -1) options.push("-x");
+        // -mtx	Enable Microtype Express compression for EOT format
+    }
+    return options;
 };
+
+// stringify options
+function styOptions(ops) {
+    return parseOptions(ops).join(' ');
+}
 
 function checkFile(inputFile, callback) {
     var invalid = true;
@@ -133,6 +151,5 @@ function snftly(fontfile, outfile, options, callback) {
 }
 
 module.exports = {
-    subset: subset,
-    css: cssEncode
+    subset: subset
 }

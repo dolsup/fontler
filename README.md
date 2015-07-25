@@ -16,8 +16,12 @@ Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
 - `inputFile`: *String*, the path and name of original font file / 원본 폰트 경로와 이름
 - `outputFile`: *String*, name of output file / 결과 파일 이름
 - `subString`: *String*, the string to leave / 남길 문자열
-- `option` : *String*, output format including 'e' as eot or 'w' as woff or both
-    / 'e' 또는 'w' 또는 둘 다를 포함한 결과 파일 포맷 옵션
+- `option` : *String*, option including the following characters / 다음 문자를 포함한 옵션
+    - **w** : output WOFF format / WOFF 파일 출력
+    - **e** : output EOT format / EOT 파일 출력
+    - **x** : Enable Microtype Express compression for EOT format / EOT를 위한 압축(?)
+    - **h** : strip hints / 힌팅 제거
+    - usage : "wexh", "ex", "yeah", "woff and eot", "hardware"
 - `callback` : *Function* pass (error, outputPath) / 에러와 결과 경로 반환하는 콜백
 
 #### Overloaded! / 과적(?)됐어요!
@@ -47,7 +51,7 @@ output file names are the same with input file name
    
    // 5 parameter
    fontler('originalFont.ttf', 'subset',
-            '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff',
+            '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff,hints',
             function(err, outputPath) {
             	if(err) console.log(err);
             	else console.log(outputPath);
