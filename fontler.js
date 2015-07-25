@@ -150,6 +150,4 @@ function snftly(fontfile, outfile, options, callback) {
     });
 }
 
-module.exports = {
-    subset: subset
-}
+module.exports = subset;
