@@ -58,20 +58,20 @@ output file names are the same with input file name
             '첩첩산 방방곡곡 굽굽이 찾아들어', 'woff,hints',
             function(err) {
             	if(err) console.log(err);
-            	else console.log(outputPath);
+            	else console.log("hooray!");
    });
    
    // 4 parameter
    fontler('originalFont.ttf', 'twoFormatOutput', '첩첩산 방방곡곡 굽굽이 찾아들어',
             function(err) {
             	if(err) console.log(err);
-            	else console.log(outputPaths); // array
+            	else console.log("hooray!");
    });
    
    // 3 parameter
    fontler('originalFont.ttf', '첩첩산 방방곡곡 굽굽이 찾아들어', function(err) {
     	if(err) console.log(err);
-    	else console.log(outputPaths); // array
+    	else console.log("hooray!");
    });
 ```
 
