@@ -29,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/dolsup/fontler/issues"
   },
-  "homepage": "https://github.com/dolsup/fontler#readme"
+  "homepage": "https://github.com/dolsup/fontler#readme",
+  "dependencies": {
+    "is-ttf": "^0.2.1"
+  }
 }

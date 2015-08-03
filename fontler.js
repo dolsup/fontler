@@ -15,6 +15,7 @@
 
 var fs = require('fs');
 var spawn = require('child_process').spawn;
+var isTTF = require('is-ttf');
 
 function subset(inputFile, p2, p3, p4, callback) {
     var args = [];
@@ -119,16 +120,18 @@ function styOptions(ops) {
 function checkFile(inputFile, callback) {
     var invalid = true;
     try {
-        //if(inputFile.split('.').pop()=='otf') throw "Sorry, OTF fonts are not supported";
-        //else {
+        if(inputFile.split('.').pop()=='otf') throw "Sorry, OTF fonts are not supported";
+        else if(!isTTF(buffer = fs.readFileSync(inputFile))) {
+            throw "This is invalid TTF font!";
+        } else {
             try{
                 if(fs.statSync(inputFile)) invalid = false;
             } catch(e) {
-                if(e) throw "..Where's the file? (" + inputFile + ")";
+                if(e) throw "..Where's the file?";
             }
-        //}
+        }
     } catch(err) {
-        invalid = "\u001b[31mFONTLER : \u001b[39m" + err;
+        invalid = "\u001b[31mFONTLER : \u001b[39m" + err + " (" + inputFile + ")";
     } finally {
         callback(invalid);
     }

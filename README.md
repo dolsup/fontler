@@ -1,8 +1,8 @@
 # Fontler (en / ko)
 ### Summary / 개요
 [![NPM](https://nodei.co/npm/fontler.png?compact=true)](https://nodei.co/npm/fontler/) <br>
-Fontler can minimize the volume of font by removing unnecessary glyphs, using Google's sfntly(Apache v2.0) / <br>
-Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화할 수 있습니다. Google의 sfntly(Apache v2.0)를 사용합니다.
+Fontler minimize the volume of TTF font by removing unnecessary glyphs, using Google's sfntly(Apache v2.0). You can programmatically use it./ <br>
+Fontler는 TTF 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화 해줍니다. Google의 sfntly(Apache v2.0)를 사용합니다. 프로그램적으로(코드 상에서) 사용할 수 있습니다.
 
 ### Feature / 기능
 - create lightweight font subset with specified string / 지정한 문자열만 남긴 경량 서브셋 폰트 생성
@@ -23,12 +23,12 @@ Fontler는 글꼴의 필요 없는 글리프를 삭제해서 용량을 최소화
 - `option` : *String*, option including the following characters / 다음 문자를 포함한 옵션
     - **w** : output WOFF format / WOFF 파일 출력
     - **e** : output EOT format / EOT 파일 출력
-    - **x** : Enable Microtype Express compression for EOT format / EOT를 위한 압축(?)
+    - **x** : Enable Microtype Express compression for EOT format / EOT를 위한 MTX 압축 옵션
     - **h** : strip hints / 힌팅 제거
     - usage : "wexh", "ex", "yeah", "woff and eot", "hardware"
 - `callback` : *Function* pass (error) / 에러 반환하는 콜백
 
-#### Overloaded! / 과적(?)됐어요!
+#### Overloaded! / 과적됐어요!
 ##### 5 parameter
 ```js
 fontler(inputFile, outputFile, subString, option, callback);
