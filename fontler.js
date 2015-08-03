@@ -16,6 +16,10 @@
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 var isTTF = require('is-ttf');
+var ttf2woff2 = require('ttf2woff2');
+
+var inputBuffer;
+var woff2flag = false;
 
 function subset(inputFile, p2, p3, p4, callback) {
     var args = [];
@@ -29,9 +33,14 @@ function subset(inputFile, p2, p3, p4, callback) {
             if(args.length == 5) {
                 // basic parameter option
                 // inputFile, outputFile, subString, outputFormat, callback);
-                if(checkOptions(p4) == 2) {
+                var parsedOps = parseOptions(p4);
+                if(woff2flag) {
+                    fs.writeFile(removeExt(p2)+'.woff2', ttf2woff2(inputBuffer), function(err) {
+                        if(err) callback(err);
+                    });
+                }
+                if(checkOptions(p4) >= 2) {
                     var ops = ['-s', p3];
-                    var parsedOps = parseOptions(p4);
                     snftly(inputFile, removeExt(p2)+'.eot', ops.concat(parsedOps.splice(parsedOps.indexOf('-w'), 1)), function(code) {
                         if(code) callback(code);
                         snftly(inputFile, removeExt(p2)+'.woff', ops.concat(parsedOps.splice(parsedOps.indexOf('-e'), 1)), function(code2) {
@@ -40,16 +49,9 @@ function subset(inputFile, p2, p3, p4, callback) {
                         });
                     });
                 } else if(checkOptions(p4) == 0) {
-                    var ops = ['-s', p3];
-                    snftly(inputFile, removeExt(p2)+'.eot', ops.concat('-e'), function(code) {
-                        if(code) callback(code);
-                        snftly(inputFile, removeExt(p2)+'.woff', ops.concat('-w'), function(code2) {
-                            if(code2) callback(code2);
-                            else callback(null);
-                        });
-                    });
+                    callback("\u001b[31mFONTLER : \u001b[39m" + "Fontler needs one or more output options!");
                 } else {
-                    var ops = ['-s', p3, styOptions(p4)];
+                    var ops = ['-s', p3, parsedOps.join(' ')];
                     snftly(inputFile, p2, ops, function(code) {
                         if(code) callback(code);
                         else callback(null);
@@ -96,7 +98,7 @@ function getExt(filename) {
 // check whether option parameter includes 'eot' and 'woff'
 function checkOptions(ops) {
     // count the number of options (eot, woff);
-    return 0 + (ops.indexOf('e') !== -1) + (ops.indexOf('w') !== -1);
+    return 0 + (ops.indexOf('e') !== -1) + (ops.indexOf('w') !== -1) + (ops.indexOf('2') !== -1);
 }
 
 // old code (outputFormat==='eot')?'-e':((outputFormat==='woff')?'-w':'')
@@ -109,19 +111,16 @@ function parseOptions(ops) {
         if(ops.indexOf('x') !== -1) options.push("-x");
         // -mtx	Enable Microtype Express compression for EOT format
     }
+    if(ops.indexOf('2') !== -1) woff2flag = true; // Output WOFF2 format
+    else woff2flag = false;
     return options;
 };
-
-// stringify options
-function styOptions(ops) {
-    return parseOptions(ops).join(' ');
-}
 
 function checkFile(inputFile, callback) {
     var invalid = true;
     try {
         if(inputFile.split('.').pop()=='otf') throw "Sorry, OTF fonts are not supported";
-        else if(!isTTF(buffer = fs.readFileSync(inputFile))) {
+        else if(!isTTF(inputBuffer = fs.readFileSync(inputFile))) {
             throw "This is invalid TTF font!";
         } else {
             try{

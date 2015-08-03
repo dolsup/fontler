@@ -22,10 +22,11 @@ Fontler는 TTF 글꼴의 필요 없는 글리프를 삭제해서 용량을 최�
 - `subString`: *String*, the string to leave / 남길 문자열
 - `option` : *String*, option including the following characters / 다음 문자를 포함한 옵션
     - **w** : output WOFF format / WOFF 파일 출력
+    - **2** : output WOFF2 format / WOFF2 파일 출력
     - **e** : output EOT format / EOT 파일 출력
     - **x** : Enable Microtype Express compression for EOT format / EOT를 위한 MTX 압축 옵션
     - **h** : strip hints / 힌팅 제거
-    - usage : "wexh", "ex", "yeah", "woff and eot", "hardware"
+    - usage : "wexh", "hex", "yeah", "woff2", "woff and eot", "hardware"
 - `callback` : *Function* pass (error) / 에러 반환하는 콜백
 
 #### Overloaded! / 과적됐어요!

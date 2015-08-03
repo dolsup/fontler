@@ -18,11 +18,18 @@
     "subset",
     "webfont",
     "woff",
+    "woff2",
+    "convert",
+    "conversion",
     "eot",
     "ttf",
     "sfntly",
+    "optimize",
     "optimization",
-    "Hangul"
+    "hangul",
+    "hanzi",
+    "kanji",
+    "CJK"
   ],
   "author": "dolsup",
   "license": "Beerware",
@@ -31,6 +38,7 @@
   },
   "homepage": "https://github.com/dolsup/fontler#readme",
   "dependencies": {
-    "is-ttf": "^0.2.1"
+    "is-ttf": "^0.2.1",
+    "ttf2woff2": "^1.2.2"
   }
 }
