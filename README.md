@@ -13,7 +13,8 @@ Fontler는 TTF 글꼴의 필요 없는 글리프를 삭제해서 용량을 최�
 
 ### Change Log / 바뀐 점
 - Callback doesn't pass *outputPath* any more / *outputPath* 옵션이 사라짐
-- add x, h option / x, h 옵션 추가
+- add x, h, 2 option / x, h, 2 옵션 추가
+- new dependencies : isTTF, ttf2woff2 / 의존성 모듈 추가
 
 ### API
 #### Parameter / 인수
