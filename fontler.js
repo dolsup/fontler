@@ -27,16 +27,15 @@ function subset(inputFile, p2, p3, p4, callback) {
         args.push(arguments[i]);
     }
     checkFile(inputFile, function(err) {
-        if(err) {
-            callback(err);
-        } else {
+        if(err) callback(err);
+        else {
             if(args.length == 5) {
                 // basic parameter option
                 // inputFile, outputFile, subString, outputFormat, callback);
                 var parsedOps = parseOptions(p4);
                 if(woff2flag) {
                     fs.writeFile(removeExt(p2)+'.woff2', ttf2woff2(inputBuffer), function(err) {
-                        if(err) callback(err);
+                        if(err) callback(fontlerErr(err));
                     });
                 }
                 if(checkOptions(p4) >= 2) {
@@ -49,7 +48,7 @@ function subset(inputFile, p2, p3, p4, callback) {
                         });
                     });
                 } else if(checkOptions(p4) == 0) {
-                    callback("\u001b[31mFONTLER : \u001b[39m" + "Fontler needs one or more output options!");
+                    callback(fontlerErr("Fontler needs one or more output options!"));
                 } else {
                     var ops = ['-s', p3, parsedOps.join(' ')];
                     snftly(inputFile, p2, ops, function(code) {
@@ -66,7 +65,10 @@ function subset(inputFile, p2, p3, p4, callback) {
                     if(code) callback(code);
                     snftly(inputFile, removeExt(p2)+'.woff', ops.concat(['-w']), function(code2) {
                         if(code2) callback(code2);
-                        else p4(null);
+                        else fs.writeFile(removeExt(p2)+'.woff2', ttf2woff2(inputBuffer), function(err) {
+                                if(err) callback(fontlerErr(err));
+                                else p4(null);
+                            });
                     });
                 });
             }
@@ -78,7 +80,10 @@ function subset(inputFile, p2, p3, p4, callback) {
                     if(code) callback(code);
                     snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
                         if(code2) callback(code2);
-                        else p3(null);
+                        else fs.writeFile(removeExt(p2)+'.woff2', ttf2woff2(inputBuffer), function(err) {
+                                if(err) callback(fontlerErr(err));
+                                else p3(null);
+                            });
                     });
                 });
             }
@@ -130,7 +135,7 @@ function checkFile(inputFile, callback) {
             }
         }
     } catch(err) {
-        invalid = "\u001b[31mFONTLER : \u001b[39m" + err + " (" + inputFile + ")";
+        invalid = fontlerErr(err + " (" + inputFile + ")");
     } finally {
         callback(invalid);
     }
@@ -144,11 +149,15 @@ function snftly(fontfile, outfile, options, callback) {
         //console.log(data.toString());
     });
     cmd.stderr.on('data', function(data){
-        callback("\u001b[31mFONTLER : \u001b[39m" + data.toString());
+        callback(fontlerErr(data));
     });
     cmd.on('close', function(code){
         callback(null);
     });
+}
+
+function fontlerErr(data) {
+    return "\u001b[31mFONTLER : \u001b[39m" + data.toString();
 }
 
 module.exports = subset;

@@ -15,6 +15,7 @@ Fontler는 TTF 글꼴의 필요 없는 글리프를 삭제해서 용량을 최�
 - Callback doesn't pass *outputPath* any more / *outputPath* 옵션이 사라짐
 - add x, h, 2 option / x, h, 2 옵션 추가
 - new dependencies : isTTF, ttf2woff2 / 의존성 모듈 추가
+- default output option : eot, woff, woff2(new) / 기본 출력 포맷(woff2 추가)
 
 ### API
 #### Parameter / 인수
@@ -41,15 +42,15 @@ basic use case
 ```js
 fontler(inputFile, outputFile, subString, callback);
 ```
-create both .eot and .woff file in the default option 
+create eot, woff, woff2 in default option 
 / 기본 옵션으로 .eot와 .woff 모두 생성
 
 ##### 3 parameter
 ```js
 fontler(inputFile, subString, callback);
 ```
-output file names are the same with input file name 
-/ 결과 파일이 원본 파일과 이름이 같게 됨
+output file names have the same name but respective extensions
+/ 결과 파일이 원본 파일과 이름이 같지만 다른 확장자를 가짐
 
 ### Usage / 사용법
 ```js
