@@ -39,10 +39,9 @@ function subset(inputFile, p2, p3, p4, callback) {
                     });
                 }
                 if(checkOptions(p4) >= 2) {
-                    var ops = ['-s', p3];
-                    snftly(inputFile, removeExt(p2)+'.eot', ops.concat(parsedOps.splice(parsedOps.indexOf('-w'), 1)), function(code) {
+                    snftly(inputFile, removeExt(p2)+'.eot', parsedOps.splice(parsedOps.indexOf('-w'), 1), p3, function(code) {
                         if(code) callback(code);
-                        snftly(inputFile, removeExt(p2)+'.woff', ops.concat(parsedOps.splice(parsedOps.indexOf('-e'), 1)), function(code2) {
+                        snftly(inputFile, removeExt(p2)+'.woff', parsedOps.splice(parsedOps.indexOf('-e'), 1), p3, function(code2) {
                             if(code2) callback(code2);
                             else callback(null);
                         });
@@ -50,8 +49,8 @@ function subset(inputFile, p2, p3, p4, callback) {
                 } else if(checkOptions(p4) == 0) {
                     callback(fontlerErr("Fontler needs one or more output options!"));
                 } else {
-                    var ops = ['-s', p3, parsedOps.join(' ')];
-                    snftly(inputFile, removeExt(p2)+((hasEOT(parsedOps))?'.eot':'.woff'), ops, function(code) {
+                    var ops = parsedOps;
+                    snftly(inputFile, removeExt(p2)+((hasEOT(parsedOps))?'.eot':'.woff'), ops, p3, function(code) {
                         if(code) callback(code);
                         else callback(null);
                     });
@@ -60,10 +59,9 @@ function subset(inputFile, p2, p3, p4, callback) {
             if(args.length == 4) {
                 // simple parameter option
                 // inputFile, OutputFile, subString, callback
-                var ops = ['-s', p3];
-                snftly(inputFile, removeExt(p2)+'.eot', ops.concat(['-e']), function(code) {
+                snftly(inputFile, removeExt(p2)+'.eot', ['-e'], p3, function(code) {
                     if(code) callback(code);
-                    snftly(inputFile, removeExt(p2)+'.woff', ops.concat(['-w']), function(code2) {
+                    snftly(inputFile, removeExt(p2)+'.woff', ['-w'], p3, function(code2) {
                         if(code2) callback(code2);
                         else fs.writeFile(removeExt(p2)+'.woff2', ttf2woff2(inputBuffer), function(err) {
                                 if(err) callback(fontlerErr(err));
@@ -75,10 +73,9 @@ function subset(inputFile, p2, p3, p4, callback) {
             if(args.length == 3) {
                 // more simple parameter option
                 // inputFile, subString, callback
-                var ops = ['-s', p2];
-                snftly(inputFile, removeExt(inputFile)+'.eot', ops.concat(['-e']), function(code) {
+                snftly(inputFile, removeExt(inputFile)+'.eot', ['-e'], p2, function(code) {
                     if(code) callback(code);
-                    snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
+                    snftly(inputFile, removeExt(inputFile)+'.woff', ['-w'], p2, function(code2) {
                         if(code2) callback(code2);
                         else fs.writeFile(removeExt(inputFile)+'.woff2', ttf2woff2(inputBuffer), function(err) {
                                 if(err) callback(fontlerErr(err));
@@ -103,7 +100,7 @@ function getExt(filename) {
 // check whether option parameter includes 'eot' and 'woff'
 function checkOptions(ops) {
     // count the number of options (eot, woff);
-    return 0 + (ops.indexOf('e') !== -1) + (ops.indexOf('w') !== -1) + (ops.indexOf('2') !== -1);
+    return 0 + (ops.indexOf('e') !== -1) + (ops.indexOf('w') !== -1);
 }
 
 // old code (outputFormat==='eot')?'-e':((outputFormat==='woff')?'-w':'')
@@ -145,12 +142,16 @@ function checkFile(inputFile, callback) {
     }
 }
 
-function snftly(fontfile, outfile, options, callback) {
-    var ops = ['-classpath', __dirname + '/lib/sfntly.jar', 'com.google.typography.font.tools.sfnttool.SfntTool'].concat(options).concat([fontfile, outfile]);
+function snftly(fontfile, outfile, options, string, callback) {
+    var ops;
+    // var ops = ['-classpath', __dirname + '/lib/sfntly.jar', 'com.google.typography.font.tools.sfnttool.SfntTool'].concat('-'+options).concat('-s '+string).concat([fontfile, outfile]);
+    if(string) ops = ['-jar', __dirname + '/lib/sfntly.jar'].concat(options).concat(['-s', string]).concat([fontfile, outfile]);
+    else ops = ['-jar', __dirname + '/lib/sfntly.jar'].concat(options).concat([fontfile, outfile]);
+    // console.log(ops);
     
     var cmd = spawn('java', ops);
     cmd.stdout.on('data', function(data){
-        //console.log(data.toString());
+        // console.log(data.toString());
     });
     cmd.stderr.on('data', function(data){
         callback(fontlerErr(data));
