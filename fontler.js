@@ -51,7 +51,7 @@ function subset(inputFile, p2, p3, p4, callback) {
                     callback(fontlerErr("Fontler needs one or more output options!"));
                 } else {
                     var ops = ['-s', p3, parsedOps.join(' ')];
-                    snftly(inputFile, p2, ops, function(code) {
+                    snftly(inputFile, removeExt(p2)+((hasEOT(parsedOps))?'.eot':'.woff'), ops, function(code) {
                         if(code) callback(code);
                         else callback(null);
                     });
@@ -80,7 +80,7 @@ function subset(inputFile, p2, p3, p4, callback) {
                     if(code) callback(code);
                     snftly(inputFile, removeExt(inputFile)+'.woff', ops.concat(['-w']), function(code2) {
                         if(code2) callback(code2);
-                        else fs.writeFile(removeExt(p2)+'.woff2', ttf2woff2(inputBuffer), function(err) {
+                        else fs.writeFile(removeExt(inputFile)+'.woff2', ttf2woff2(inputBuffer), function(err) {
                                 if(err) callback(fontlerErr(err));
                                 else p3(null);
                             });
@@ -119,7 +119,11 @@ function parseOptions(ops) {
     if(ops.indexOf('2') !== -1) woff2flag = true; // Output WOFF2 format
     else woff2flag = false;
     return options;
-};
+}
+
+function hasEOT(ops) {
+    if(ops.indexOf('-e') !== -1) return true;
+}
 
 function checkFile(inputFile, callback) {
     var invalid = true;
