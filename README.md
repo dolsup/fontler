@@ -6,7 +6,7 @@ Fontler는 TTF 글꼴의 필요 없는 글리프를 삭제해서 용량을 최�
 
 ### Feature / 기능
 - create lightweight font subset with specified string / 지정한 문자열만 남긴 경량 서브셋 폰트 생성
-- woff, eot format output / woff, eot 파일 포맷으로 출력
+- woff, woff2, eot format output / 웬만한 거 다 됩니다.
 
 ### Installation / 설치
 `npm i fontler --save`
@@ -42,7 +42,7 @@ basic use case
 ```js
 fontler(inputFile, outputFile, subString, callback);
 ```
-create eot, woff, woff2 in default option 
+create eot, woff, woff2 in default option
 / 기본 옵션으로 .eot와 .woff 모두 생성
 
 ##### 3 parameter
